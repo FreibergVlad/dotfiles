@@ -1,0 +1,9 @@
+configuration {
+    modi: "window,drun,ssh,combi";
+    lines: 12;
+    font: "Source Sans Pro 12";
+    show-icons: true;
+    theme: "oxide";
+    display-window: "Window";
+    display-drun: "Search";
+}
