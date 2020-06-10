@@ -1,7 +1,0 @@
-#!/bin/bash
-
-volume_percentage=$(amixer sget Master | awk 'FNR == 6 {print $5}' | sed -e 's/\[//g' -e 's/\]//g')
-volume_integer=$(echo $volume_percentage | sed 's/%//g')
-volume_icon=
-
-echo "$volume_icon $volume_percentage"
