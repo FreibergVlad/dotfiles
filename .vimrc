@@ -23,9 +23,8 @@ Plugin 'tpope/vim-commentary' " allows to comment stuff out
 Plugin 'Vimjas/vim-python-pep8-indent' " PEP8 indentation
 Plugin 'dense-analysis/ale' " python linter
 Plugin 'morhetz/gruvbox' " gruvbox color scheme
-Plugin 'https://github.com/airblade/vim-gitgutter.git' " Git plugin 
-Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'vim-vdebug/vdebug' " Python debugger
+Plugin 'https://github.com/tpope/vim-fugitive' " Git plugin
+Plugin 'mhinz/vim-signify' " Git signs
 Plugin 'davidhalter/jedi-vim' " autocomplete
 " PLUGINS END
 
@@ -45,7 +44,14 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 " open NERDTree with 'Ctrl+n'
 map <C-n> :NERDTreeToggle<CR>
+" show currently opened file in NERDTree
+" with 'Ctrl+m'
+map <C-m> :NERDTreeFind<CR>
 
 " line width marker for Python files
 autocmd FileType python setlocal colorcolumn=79
 
+" async update time for vim-signify
+set updatetime=100
+
+let NERDTreeIgnore = ['\.pyc$', '^__pycache__$']
