@@ -5,6 +5,7 @@ set encoding=utf-8
 let python_highlight_all=1
 syntax on
 set nu
+set relativenumber
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -26,6 +27,8 @@ Plugin 'morhetz/gruvbox' " gruvbox color scheme
 Plugin 'https://github.com/tpope/vim-fugitive' " Git plugin
 Plugin 'mhinz/vim-signify' " Git signs
 Plugin 'davidhalter/jedi-vim' " autocomplete
+Plugin 'vim-airline/vim-airline' " vim status line
+Plugin 'vim-airline/vim-airline-themes' " themes for the status line
 " PLUGINS END
 
 call vundle#end()            " required
