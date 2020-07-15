@@ -1,3 +1,7 @@
+URxvt.perl-ext-common: default,matcher
+URxvt.url-launcher: /usr/bin/xdg-open
+URxvt.matcher.button: 1
+
 ! hard contrast: *background: #1d2021
 *background: #282828
 ! ! soft contrast: *background: #32302f

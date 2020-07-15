@@ -6,6 +6,7 @@ let python_highlight_all=1
 syntax on
 set nu
 set relativenumber
+set mouse=a
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -57,4 +58,7 @@ autocmd FileType python setlocal colorcolumn=79
 " async update time for vim-signify
 set updatetime=100
 
+" ignore *.pyc and __pycache__ files
 let NERDTreeIgnore = ['\.pyc$', '^__pycache__$']
+" show hidden files
+let NERDTreeShowHidden=1
