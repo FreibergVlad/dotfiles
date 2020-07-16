@@ -7,6 +7,7 @@ syntax on
 set nu
 set relativenumber
 set mouse=a
+set backspace=indent,eol,start
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
