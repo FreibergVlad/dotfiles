@@ -31,6 +31,7 @@ Plugin 'mhinz/vim-signify' " Git signs
 Plugin 'davidhalter/jedi-vim' " autocomplete
 Plugin 'vim-airline/vim-airline' " vim status line
 Plugin 'vim-airline/vim-airline-themes' " themes for the status line
+Plugin 'townk/vim-autoclose'
 " PLUGINS END
 
 call vundle#end()            " required
