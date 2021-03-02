@@ -32,6 +32,10 @@ Plugin 'davidhalter/jedi-vim' " autocomplete
 Plugin 'vim-airline/vim-airline' " vim status line
 Plugin 'vim-airline/vim-airline-themes' " themes for the status line
 Plugin 'townk/vim-autoclose'
+Plugin 'https://github.com/ludovicchabant/vim-gutentags.git' " tags management
+Plugin 'mgedmin/python-imports.vim' " python auto imports
+Plugin 'chase/vim-ansible-yaml' " support for .yaml files
+Plugin 'https://github.com/pangloss/vim-javascript.git' " JS support
 " PLUGINS END
 
 call vundle#end()            " required
@@ -56,11 +60,12 @@ map <C-m> :NERDTreeFind<CR>
 
 " line width marker for Python files
 autocmd FileType python setlocal colorcolumn=79
-
+autocmd filetype javascript setlocal ts=4 sts=4 sw=4
+autocmd filetype html setlocal ts=4 sts=4 sw=4
 " async update time for vim-signify
 set updatetime=100
 
-" ignore *.pyc and __pycache__ files
-let NERDTreeIgnore = ['\.pyc$', '^__pycache__$']
+" ignore *.pyc, *.swp and __pycache__ files
+let NERDTreeIgnore = ['\.pyc$', '^__pycache__$', '\.swp$']
 " show hidden files
 let NERDTreeShowHidden=1
