@@ -14,18 +14,21 @@ Plug 'scrooloose/nerdtree'
 " asynchronous linter (uses linting tools under the hood,
 " e.g. 'pylint', 'flake8') (https://github.com/dense-analysis/ale)
 Plug 'dense-analysis/ale'
+" asynchronous autocompletion
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'davidhalter/jedi-vim'
 " Git plugin (https://github.com/tpope/vim-fugitive)
 Plug 'tpope/vim-fugitive'
-" Indicates modified lines in sign column
+" indicate modified lines in sign column
 Plug 'mhinz/vim-signify'
 " CLI fuzzy finder
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 " vim/neovim integration for 'fzf' (to search across
 " file contents, Silver Searcher should be installed)
 Plug 'junegunn/fzf.vim'
+" comment text in and out
+Plug 'b3nj5m1n/kommentary'
 " gruvbox theme
 Plug 'morhetz/gruvbox'
 call plug#end()
