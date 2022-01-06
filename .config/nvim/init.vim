@@ -31,6 +31,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'b3nj5m1n/kommentary'
 " gruvbox theme
 Plug 'morhetz/gruvbox'
+" JS support
+Plug 'pangloss/vim-javascript'
 call plug#end()
 " ======== PLUGINS END ===========
 
@@ -38,6 +40,15 @@ call plug#end()
 colorscheme gruvbox
 set background=dark 
 " ===========================================
+
+" indentation settings
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set autoindent
+set fileformat=unix
+filetype indent on
 
 set relativenumber " relative line numbers
 set clipboard+=unnamedplus " use system clipboard for 'yank'/'paste'
