@@ -65,6 +65,8 @@ let g:jedi#completions_enabled = 0
 nnoremap <silent> <C-p> :Files<CR>
 " run search across file contents with Ctrl+F
 nnoremap <silent> <C-f> :Ag<CR>
+" fzf: disable search for file names, but only for file contents
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
 " ignore *.pyc, *.swp, __pycache__ files and '.git' folder
 let NERDTreeIgnore=['\.pyc$', '^__pycache__$', '\.swp$', '\.git$']
