@@ -1,45 +1,9 @@
-" install vim-plug if isn't installed already
-let autoload_plug_path = stdpath('data') . '/site/autoload/plug.vim'
-if !filereadable(autoload_plug_path)
-  silent execute '!curl -fLo ' . autoload_plug_path . ' --create-dirs 
-      \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-unlet autoload_plug_path
-
-" ======== PLUGINS BEGIN =========
-call plug#begin(stdpath('data') . '/plugged')
-" file browser (https://github.com/preservim/nerdtree)
-Plug 'scrooloose/nerdtree'
-" asynchronous linter (uses linting tools under the hood,
-" e.g. 'pylint', 'flake8') (https://github.com/dense-analysis/ale)
-Plug 'dense-analysis/ale'
-" asynchronous autocompletion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'deoplete-plugins/deoplete-jedi'
-Plug 'davidhalter/jedi-vim'
-" Git plugin (https://github.com/tpope/vim-fugitive)
-Plug 'tpope/vim-fugitive'
-" indicate modified lines in sign column
-Plug 'mhinz/vim-signify'
-" CLI fuzzy finder
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" vim/neovim integration for 'fzf' (to search across
-" file contents, Silver Searcher should be installed)
-Plug 'junegunn/fzf.vim'
-" comment text in and out
-Plug 'b3nj5m1n/kommentary'
-" gruvbox theme
-Plug 'morhetz/gruvbox'
-" JS support
-Plug 'pangloss/vim-javascript'
-call plug#end()
-" ======== PLUGINS END ===========
-
-" ====== ACTIVATE GRUVBOX DARK THEME ========  
-colorscheme gruvbox
-set background=dark 
-" ===========================================
+" general settings
+set mouse=a
+set encoding=utf-8
+set relativenumber
+set clipboard+=unnamedplus
+set noswapfile
 
 " indentation settings
 set tabstop=4
@@ -49,17 +13,46 @@ set expandtab
 set autoindent
 set fileformat=unix
 filetype indent on
-
-set relativenumber " relative line numbers
-set clipboard+=unnamedplus " use system clipboard for 'yank'/'paste'
-set updatetime=100 " async update interval for 'vim-signify'
-" line width marker for Python files
 autocmd FileType python setlocal colorcolumn=79
 
-" enable deoplete autocompletion
-let g:deoplete#enable_at_startup = 1
-" disable autocompletion, because we use deoplete for completion
-let g:jedi#completions_enabled = 0
+" install vim-plug if isn't installed already
+let autoload_plug_path = stdpath('data') . '/site/autoload/plug.vim'
+if !filereadable(autoload_plug_path)
+  silent execute '!curl -fLo ' . autoload_plug_path . ' --create-dirs 
+      \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+unlet autoload_plug_path
+
+" plugins list
+call plug#begin(stdpath('data') . '/plugged')
+
+" LSP integration
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'scrooloose/nerdtree' " file browser
+Plug 'mhinz/vim-signify' " show modified lines
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim' " fuzzy finder
+Plug 'b3nj5m1n/kommentary' " comment text
+Plug 'morhetz/gruvbox' " gruvbox color scheme
+
+call plug#end()
+
+" ====== ACTIVATE GRUVBOX DARK THEME ========  
+colorscheme gruvbox
+set background=dark 
+" ===========================================
+
+set completeopt=menu,menuone,noselect
+
+set updatetime=100 " async update interval for 'vim-signify'
 
 " run search across file names with Ctrl+P
 nnoremap <silent> <C-p> :Files<CR>
@@ -68,12 +61,124 @@ nnoremap <silent> <C-f> :Ag<CR>
 " fzf: disable search for file names, but only for file contents
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
-" ignore *.pyc, *.swp, __pycache__ files and '.git' folder
 let NERDTreeIgnore=['\.pyc$', '^__pycache__$', '\.swp$', '\.git$']
-" show hidden files
 let NERDTreeShowHidden=1
-" open NERDTree with 'Ctrl+n'
 map <C-n> :NERDTreeToggle<CR>
-" show currently opened file in NERDTree
-" with 'Ctrl+m'
 map <C-m> :NERDTreeFind<CR>
+
+lua << EOF
+require("null-ls").setup({
+    sources = {
+        require("null-ls").builtins.diagnostics.flake8,
+        require("null-ls").builtins.diagnostics.pylint,
+        require("null-ls").builtins.completion.spell,
+    },
+})
+-- Setup nvim-cmp.
+local cmp = require'cmp'
+
+cmp.setup({
+snippet = {
+  -- REQUIRED - you must specify a snippet engine
+  expand = function(args)
+    vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+    -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+    -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+    -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+  end,
+},
+window = {
+  -- completion = cmp.config.window.bordered(),
+  -- documentation = cmp.config.window.bordered(),
+},
+mapping = cmp.mapping.preset.insert({
+  ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+  ['<C-f>'] = cmp.mapping.scroll_docs(4),
+  ['<C-Space>'] = cmp.mapping.complete(),
+  ['<C-e>'] = cmp.mapping.abort(),
+  ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+}),
+sources = cmp.config.sources({
+  { name = 'nvim_lsp' },
+  { name = 'vsnip' }, -- For vsnip users.
+  -- { name = 'luasnip' }, -- For luasnip users.
+  -- { name = 'ultisnips' }, -- For ultisnips users.
+  -- { name = 'snippy' }, -- For snippy users.
+}, {
+  { name = 'buffer' },
+})
+})
+
+-- Set configuration for specific filetype.
+cmp.setup.filetype('gitcommit', {
+sources = cmp.config.sources({
+  { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+}, {
+  { name = 'buffer' },
+})
+})
+
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+mapping = cmp.mapping.preset.cmdline(),
+sources = {
+  { name = 'buffer' }
+}
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+mapping = cmp.mapping.preset.cmdline(),
+sources = cmp.config.sources({
+  { name = 'path' }
+}, {
+  { name = 'cmdline' }
+})
+})
+local nvim_lsp = require('lspconfig')
+local opts = { noremap=true, silent=true }
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, bufopts)
+  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+end
+
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+local servers = { 'pyright' }
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    },
+    capabilities = capabilities
+  }
+end
+EOF
