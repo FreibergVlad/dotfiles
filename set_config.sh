@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+mkdir -p "${HOME}/.config/nvim"
+
 for file_name in '.tmux.conf' '.Xresources' '.config/nvim/init.vim' ;
     do
         src_path="$(pwd)/${file_name}"
