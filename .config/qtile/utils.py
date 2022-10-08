@@ -16,4 +16,7 @@ WALLPAPER_PATH = str(Path.home() / 'wallpaper.jpg')
 
 
 def set_wallpaper(wallpaper_path: str = WALLPAPER_PATH):
-    subprocess.run(f'feh --bg-scale {wallpaper_path}', shell=True)
+    """
+    Set image from given path as a wallpaper
+    """
+    subprocess.run(f'feh --bg-scale {wallpaper_path}', shell=True, check=True)

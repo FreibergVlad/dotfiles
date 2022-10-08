@@ -1,3 +1,6 @@
+"""
+Custom Qtile widgets live here
+"""
 import subprocess
 
 from libqtile import widget
@@ -13,6 +16,9 @@ from utils import (
 
 
 class Battery(widget.Battery):
+    """
+    Widget to display battery state
+    """
 
     FULL_BATTERY_ICON = ''
     EMPTY_BATTERY_ICON = ''
@@ -44,9 +50,6 @@ class Battery(widget.Battery):
         100: ''
     }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     def build_string(self, status: BatteryStatus) -> str:
         """
         Override parent's method to display battery icon dynamically
@@ -67,12 +70,15 @@ class Battery(widget.Battery):
         low_boundary = percentage // 10 * 10 if percentage >= 10 else 10
         if state == BatteryState.CHARGING:
             return self.CHARGING_ICONS[low_boundary]
-        elif state == BatteryState.DISCHARGING:
+        if state == BatteryState.DISCHARGING:
             return self.DISCHARGING_ICONS[low_boundary]
         assert False, 'unknown battery state'
 
 
 class Volume(widget.base.InLoopPollText):
+    """
+    Widget to display volume level
+    """
 
     ICONS = {
         'muted': '婢',
@@ -80,9 +86,6 @@ class Volume(widget.base.InLoopPollText):
         'medium': '奔',
         'high': '墳'
     }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
 
     def poll(self):
         volume = self._get_volume()
@@ -96,15 +99,24 @@ class Volume(widget.base.InLoopPollText):
     # looking for the command for execution
 
     def cmd_raise_volume(self):
-        subprocess.run(RAISE_VOLUME_SHELL_CMD, shell=True)
+        """
+        Raise volume, method is called by Qtile on external event
+        """
+        subprocess.run(RAISE_VOLUME_SHELL_CMD, shell=True, check=True)
         self.tick()
 
     def cmd_lower_volume(self):
-        subprocess.run(LOWER_VOLUME_SHELL_CMD, shell=True)
+        """
+        Lower volume, method is called by Qtile on external event
+        """
+        subprocess.run(LOWER_VOLUME_SHELL_CMD, shell=True, check=True)
         self.tick()
 
     def cmd_toggle_mute_volume(self):
-        subprocess.run(TOGGLE_MUTED_SHELL_CMD, shell=True)
+        """
+        Mute / unmute volume, method is called by Qtile on external event
+        """
+        subprocess.run(TOGGLE_MUTED_SHELL_CMD, shell=True, check=True)
         self.tick()
 
     def _get_volume_icon(self, volume: int) -> str:
