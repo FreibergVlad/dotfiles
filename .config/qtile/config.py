@@ -1,13 +1,14 @@
+"""
+Core Qtile config
+"""
 from libqtile import layout
-from libqtile.config import Click, Drag, Match
-from libqtile.lazy import lazy
+from libqtile.config import Match
 
 import hooks
 
 from groups import groups
-from keys import keys
+from keys import keys, mouse
 from screens import screens, widget_defaults
-from utils import MOD_KEY
 
 layouts = [
     layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
@@ -25,12 +26,6 @@ layouts = [
     # layout.Zoomy(),
 ]
 
-# Drag floating layouts.
-mouse = [
-    Drag([MOD_KEY], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
-    Drag([MOD_KEY], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
-    Click([MOD_KEY], "Button2", lazy.window.bring_to_front()),
-]
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list

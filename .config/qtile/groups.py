@@ -1,8 +1,25 @@
+"""
+Group definitions are here
+"""
 from libqtile.config import Group
 
-group_names = [
-    '',
-    ''
+group_definitions = [
+    {
+        'name': 'web',
+        'label': '',
+    },
+    {
+        'name': 'terminal',
+        'label': '',
+    },
+    {
+        'name': 'messaging',
+        'label': '',
+    },
+    {
+        'name': 'music',
+        'label': 'ﱘ',
+    },
 ]
 
-groups = [Group(group_name) for group_name in group_names]
+groups = [Group(**group) for group in group_definitions]

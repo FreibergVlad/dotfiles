@@ -1,23 +1,15 @@
 """
 Custom Qtile widgets live here
 """
-import subprocess
-
 from libqtile import widget
 from libqtile.widget.battery import BatteryState, BatteryStatus
 
-from utils import (
-    RAISE_VOLUME_SHELL_CMD,
-    LOWER_VOLUME_SHELL_CMD,
-    TOGGLE_MUTED_SHELL_CMD,
-    GET_VOLUME_SHELL_CMD,
-    GET_MUTE_STATUS_SHELL_CMD,
-)
+from utils import get_volume_state, set_volume, toggle_volume_mute
 
 
-class Battery(widget.Battery):
+class BatteryDynamicIcon(widget.Battery):
     """
-    Widget to display battery state
+    Widget to display battery icon depending on battery state
     """
 
     FULL_BATTERY_ICON = ''
@@ -25,16 +17,16 @@ class Battery(widget.Battery):
     UNKNOWN_BATTERY_ICON = ''
 
     CHARGING_ICONS = {
-        10: '',
+        10: '',
         20: '',
         30: '',
         40: '',
-        50: '',
+        50: '',
         60: '',
-        70: '',
+        70: '',
         80: '',
         90: '',
-        100: ''
+        100: FULL_BATTERY_ICON
     }
 
     DISCHARGING_ICONS = {
@@ -47,7 +39,7 @@ class Battery(widget.Battery):
         70: '',
         80: '',
         90: '',
-        100: ''
+        100: FULL_BATTERY_ICON
     }
 
     def build_string(self, status: BatteryStatus) -> str:
@@ -75,9 +67,14 @@ class Battery(widget.Battery):
         assert False, 'unknown battery state'
 
 
-class Volume(widget.base.InLoopPollText):
+class VolumeDynamicIcon(widget.base.InLoopPollText):
     """
-    Widget to display volume level
+    Widget to display volume icon depending on volume level
+    """
+
+    DEFAULT_STEP_PERCENTAGE = 5
+    """
+    Default step to raise / lower volume
     """
 
     ICONS = {
@@ -88,8 +85,9 @@ class Volume(widget.base.InLoopPollText):
     }
 
     def poll(self):
-        volume = self._get_volume()
-        if self._is_muted():
+        volume_state = get_volume_state()
+        volume = volume_state.percentage
+        if volume_state.muted:
             icon = self.ICONS['muted']
         else:
             icon = self._get_volume_icon(volume)
@@ -102,21 +100,21 @@ class Volume(widget.base.InLoopPollText):
         """
         Raise volume, method is called by Qtile on external event
         """
-        subprocess.run(RAISE_VOLUME_SHELL_CMD, shell=True, check=True)
+        set_volume(+self.DEFAULT_STEP_PERCENTAGE)
         self.tick()
 
     def cmd_lower_volume(self):
         """
         Lower volume, method is called by Qtile on external event
         """
-        subprocess.run(LOWER_VOLUME_SHELL_CMD, shell=True, check=True)
+        set_volume(-self.DEFAULT_STEP_PERCENTAGE)
         self.tick()
 
     def cmd_toggle_mute_volume(self):
         """
         Mute / unmute volume, method is called by Qtile on external event
         """
-        subprocess.run(TOGGLE_MUTED_SHELL_CMD, shell=True, check=True)
+        toggle_volume_mute()
         self.tick()
 
     def _get_volume_icon(self, volume: int) -> str:
@@ -127,15 +125,3 @@ class Volume(widget.base.InLoopPollText):
         if volume < 80:
             return self.ICONS['medium']
         return self.ICONS['high']
-
-    @staticmethod
-    def _is_muted() -> bool:
-        output = subprocess.check_output(GET_MUTE_STATUS_SHELL_CMD,
-                                         shell=True, text=True)
-        return bool(int(output.strip()))
-
-    @staticmethod
-    def _get_volume() -> int:
-        output = subprocess.check_output(GET_VOLUME_SHELL_CMD,
-                                         shell=True, text=True)
-        return int(output.strip())

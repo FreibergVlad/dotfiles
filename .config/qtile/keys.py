@@ -1,4 +1,7 @@
-from libqtile.config import Key
+"""
+All key bindings and mouse configuration live here
+"""
+from libqtile.config import Key, Click, Drag
 from libqtile.lazy import lazy
 
 from groups import groups
@@ -33,7 +36,6 @@ keys = [
         desc='Toggle between split and unsplit sides of stack',
     ),
     Key([MOD_KEY], 'Return', lazy.spawn(TERMINAL), desc='Launch terminal'),
-    # Toggle between different layouts as defined below
     Key([MOD_KEY], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([MOD_KEY], 'w', lazy.window.kill(), desc='Kill focused window'),
     Key(
@@ -51,21 +53,22 @@ keys = [
     # Manage the volume using special keys
     Key(
         [], 'XF86AudioRaiseVolume',
-        lazy.widget['volume'].raise_volume(),
+        lazy.widget['volumedynamicicon'].raise_volume(),
         desc='Increase volume'
     ),
     Key(
         [], 'XF86AudioLowerVolume',
-        lazy.widget['volume'].lower_volume(),
+        lazy.widget['volumedynamicicon'].lower_volume(),
         desc='Decrease volume'
     ),
     Key(
         [], 'XF86AudioMute',
-        lazy.widget['volume'].toggle_mute_volume(),
+        lazy.widget['volumedynamicicon'].toggle_mute_volume(),
         desc='Toggle mute volume'
     ),
 ]
 
+# Key bindings to switch between groups
 for index, group in enumerate(groups, 1):
     keys.extend(
         [
@@ -83,3 +86,18 @@ for index, group in enumerate(groups, 1):
             ),
         ]
     )
+
+# Drag floating layouts.
+mouse = [
+    Drag(
+        [MOD_KEY], "Button1",
+        lazy.window.set_position_floating(),
+        start=lazy.window.get_position()
+    ),
+    Drag(
+        [MOD_KEY], "Button3",
+        lazy.window.set_size_floating(),
+        start=lazy.window.get_size()
+    ),
+    Click([MOD_KEY], "Button2", lazy.window.bring_to_front()),
+]
