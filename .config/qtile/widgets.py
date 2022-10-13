@@ -100,6 +100,8 @@ class VolumeDynamicIcon(widget.base.InLoopPollText):
         """
         Raise volume, method is called by Qtile on external event
         """
+        if get_volume_state().muted:
+            toggle_volume_mute()
         set_volume(+self.DEFAULT_STEP_PERCENTAGE)
         self.tick()
 

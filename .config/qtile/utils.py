@@ -1,10 +1,15 @@
 """
 Various constants and utility functions used across the whole Qtile config
 """
+import logging
+import os
+import re
 import subprocess
 
 from pathlib import Path
 from typing import NamedTuple
+
+logger = logging.getLogger(__name__)
 
 MOD_KEY = 'mod4'
 # workaround for VirtualBox
@@ -15,7 +20,16 @@ SET_VOLUME_SHELL_CMD = 'wpctl set-volume @DEFAULT_AUDIO_SINK@ {} --limit 1.0'
 TOGGLE_MUTED_SHELL_CMD = 'wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle'
 GET_VOLUME_STATE_SHELL_CMD = 'wpctl get-volume @DEFAULT_AUDIO_SINK@'
 
-WALLPAPER_PATH = str(Path.home() / 'wallpaper.png')
+RUN_APP_LAUNCHER_SHELL_CMD = 'rofi -show drun'
+
+WALLPAPERS_DIR = str(Path.home() / '.wallpapers')
+WALLPAPER_REGEX = re.compile(r'(.*\.png$)|(.*\.jpg$)')
+
+TAKE_SCREENSHOT_SHELL_CMD = '''
+    scrot -s \
+        -F "$(xdg-user-dir PICTURES)/screenshot_%Y-%m-%d_%H.%M.%S.png" \
+        -e 'xclip -selection clipboard -target image/png -i $f'
+'''
 
 
 class VolumeState(NamedTuple):
@@ -26,11 +40,30 @@ class VolumeState(NamedTuple):
     muted: bool
 
 
-def set_wallpaper(wallpaper_path: str = WALLPAPER_PATH):
+def set_wallpaper(wallpaper_path: str | None = None):
     """
-    Set image from given path as a wallpaper
+    Set image from given path as a wallpaper. If path is not specified,
+    then try to find wallpaper in pre-defined directory
     """
-    subprocess.run(f'feh --bg-scale {wallpaper_path}', shell=True, check=True)
+    try:
+        wallpaper_path = wallpaper_path or find_wallpaper()
+        subprocess.run(f'feh --bg-scale {wallpaper_path}',
+                       shell=True, check=True)
+    except subprocess.CalledProcessError:
+        logger.exception('Error when setting the wallpaper from path "%s"',
+                         wallpaper_path)
+
+
+def find_wallpaper(root_dir: str = WALLPAPERS_DIR) -> str | None:
+    """
+    Try to find wallpaper in pre-defined directory. Pick the first file
+    with .jpg or .png extension
+    """
+    for _, _, files in os.walk(root_dir):
+        for file in files:
+            if WALLPAPER_REGEX.match(file):
+                return os.path.join(root_dir, file)
+    return None
 
 
 def set_volume(step_percentage: int):

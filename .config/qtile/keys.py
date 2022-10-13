@@ -5,7 +5,12 @@ from libqtile.config import Key, Click, Drag
 from libqtile.lazy import lazy
 
 from groups import groups
-from utils import TERMINAL, MOD_KEY
+from utils import (
+    TERMINAL,
+    MOD_KEY,
+    RUN_APP_LAUNCHER_SHELL_CMD,
+    TAKE_SCREENSHOT_SHELL_CMD,
+)
 
 keys = [
     Key([MOD_KEY], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -49,8 +54,16 @@ keys = [
         lazy.widget['keyboardlayout'].next_keyboard(),
         desc='Change keyboard layout'
     ),
-    Key([MOD_KEY], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-    # Manage the volume using special keys
+    Key(
+        [MOD_KEY], "r",
+        lazy.spawn(RUN_APP_LAUNCHER_SHELL_CMD),
+        desc="Run application launcher"
+    ),
+    Key(
+        [MOD_KEY], "Print",
+        lazy.spawn(TAKE_SCREENSHOT_SHELL_CMD, shell=True),
+        desc="Take a screenshot"
+    ),
     Key(
         [], 'XF86AudioRaiseVolume',
         lazy.widget['volumedynamicicon'].raise_volume(),

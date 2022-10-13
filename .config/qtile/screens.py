@@ -20,15 +20,15 @@ screens = [
         top=bar.Bar(
             [
                 widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
+                widget.GroupBox(disable_drag=True),
                 widget.Spacer(),
                 widget.Clock(format='%d %b %I:%M %p'),
                 widget.Spacer(),
                 widget.Systray(),
                 widget.CheckUpdates(
                     distro='Arch_yay',
-                    display_format=' {updates}'
+                    display_format=' {updates}',
+                    no_update_string=' 0'
                 ),
                 widgets.VolumeDynamicIcon(update_interval=1),
                 widgets.BatteryDynamicIcon(),
