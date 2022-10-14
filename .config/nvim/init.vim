@@ -36,6 +36,7 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'norcalli/nvim-colorizer.lua' " color highlighter
 Plug 'scrooloose/nerdtree' " file browser
 Plug 'mhinz/vim-signify' " show modified lines
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -49,6 +50,8 @@ call plug#end()
 colorscheme gruvbox
 set background=dark 
 " ===========================================
+
+set termguicolors
 
 set completeopt=menu,menuone,noselect
 
@@ -67,6 +70,8 @@ map <C-n> :NERDTreeToggle<CR>
 map <C-m> :NERDTreeFind<CR>
 
 lua << EOF
+require("colorizer").setup()
+
 require("null-ls").setup({
     sources = {
         require("null-ls").builtins.diagnostics.flake8,
