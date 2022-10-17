@@ -13,23 +13,59 @@ from utils import (
 )
 
 keys = [
-    Key([MOD_KEY], "h", lazy.layout.left(), desc="Move focus to left"),
-    Key([MOD_KEY], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([MOD_KEY], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([MOD_KEY], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([MOD_KEY], 'h', lazy.layout.left(), desc='Move focus to left'),
+    Key([MOD_KEY], 'l', lazy.layout.right(), desc='Move focus to right'),
+    Key([MOD_KEY], 'j', lazy.layout.down(), desc='Move focus down'),
+    Key([MOD_KEY], 'k', lazy.layout.up(), desc='Move focus up'),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-    Key([MOD_KEY, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    Key([MOD_KEY, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    Key([MOD_KEY, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([MOD_KEY, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key(
+        [MOD_KEY, 'shift'], 'h',
+        lazy.layout.shuffle_left(),
+        desc='Move window to the left'
+    ),
+    Key(
+        [MOD_KEY, 'shift'], 'l',
+        lazy.layout.shuffle_right(),
+        desc='Move window to the right'
+    ),
+    Key(
+        [MOD_KEY, 'shift'], 'j',
+        lazy.layout.shuffle_down(),
+        desc='Move window down'
+    ),
+    Key(
+        [MOD_KEY, 'shift'], 'k',
+        lazy.layout.shuffle_up(),
+        desc='Move window up'
+    ),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key([MOD_KEY, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key([MOD_KEY, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key([MOD_KEY, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([MOD_KEY, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([MOD_KEY], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key(
+        [MOD_KEY, 'control'], 'h',
+        lazy.layout.grow_left(),
+        desc='Grow window to the left'
+    ),
+    Key(
+        [MOD_KEY, 'control'], 'l',
+        lazy.layout.grow_right(),
+        desc='Grow window to the right'
+    ),
+    Key(
+        [MOD_KEY, 'control'], 'j',
+        lazy.layout.grow_down(),
+        desc='Grow window down'
+    ),
+    Key(
+        [MOD_KEY, 'control'], 'k',
+        lazy.layout.grow_up(),
+        desc='Grow window up'
+    ),
+    Key(
+        [MOD_KEY], 'n',
+        lazy.layout.normalize(),
+        desc='Reset all window sizes'
+    ),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -41,7 +77,7 @@ keys = [
         desc='Toggle between split and unsplit sides of stack',
     ),
     Key([MOD_KEY], 'Return', lazy.spawn(TERMINAL), desc='Launch terminal'),
-    Key([MOD_KEY], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([MOD_KEY], 'Tab', lazy.next_layout(), desc='Toggle between layouts'),
     Key([MOD_KEY], 'w', lazy.window.kill(), desc='Kill focused window'),
     Key(
         [MOD_KEY, 'control'], 'r',
@@ -55,29 +91,34 @@ keys = [
         desc='Change keyboard layout'
     ),
     Key(
-        [MOD_KEY], "r",
+        [MOD_KEY], 'r',
         lazy.spawn(RUN_APP_LAUNCHER_SHELL_CMD),
-        desc="Run application launcher"
+        desc='Run application launcher'
     ),
     Key(
-        [MOD_KEY], "Print",
+        [MOD_KEY], 'Print',
         lazy.spawn(TAKE_SCREENSHOT_SHELL_CMD, shell=True),
-        desc="Take a screenshot"
+        desc='Take a screenshot'
     ),
     Key(
         [], 'XF86AudioRaiseVolume',
         lazy.widget['volumedynamicicon'].raise_volume(),
-        desc='Increase volume'
+        desc='Increase speakers volume'
     ),
     Key(
         [], 'XF86AudioLowerVolume',
         lazy.widget['volumedynamicicon'].lower_volume(),
-        desc='Decrease volume'
+        desc='Decrease speakers volume'
     ),
     Key(
         [], 'XF86AudioMute',
         lazy.widget['volumedynamicicon'].toggle_mute_volume(),
-        desc='Toggle mute volume'
+        desc='Toggle mute speakers volume'
+    ),
+    Key(
+        [], 'XF86AudioMicMute',
+        lazy.widget['microphonedynamicicon'].toggle_mute_volume(),
+        desc='Toggle mute microphone volume'
     ),
 ]
 
@@ -103,14 +144,14 @@ for index, group in enumerate(groups, 1):
 # Drag floating layouts.
 mouse = [
     Drag(
-        [MOD_KEY], "Button1",
+        [MOD_KEY], 'Button1',
         lazy.window.set_position_floating(),
         start=lazy.window.get_position()
     ),
     Drag(
-        [MOD_KEY], "Button3",
+        [MOD_KEY], 'Button3',
         lazy.window.set_size_floating(),
         start=lazy.window.get_size()
     ),
-    Click([MOD_KEY], "Button2", lazy.window.bring_to_front()),
+    Click([MOD_KEY], 'Button2', lazy.window.bring_to_front()),
 ]

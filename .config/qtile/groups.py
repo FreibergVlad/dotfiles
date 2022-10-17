@@ -1,24 +1,37 @@
 """
 Group definitions are here
 """
-from libqtile.config import Group
+from libqtile.config import Group, Match
 
 group_definitions = [
     {
         'name': 'web',
         'label': '',
+        'matches': [Match(wm_class='firefox')],
+        'layout': 'max'
     },
     {
-        'name': 'terminal',
+        'name': 'dev',
         'label': '',
+        'layout': 'columns'
     },
     {
-        'name': 'messaging',
-        'label': '',
+        'name': 'ms-teams',
+        'label': '者',
+        'matches': [Match(wm_class='teams-for-linux')],
+        'layout': 'max'
     },
     {
-        'name': 'music',
-        'label': 'ﱘ',
+        'name': 'telegram',
+        'label': '切',
+        'matches': [Match(wm_class='telegram-desktop')],
+        'layout': 'max'
+    },
+    {
+        'name': 'spotify',
+        'label': '阮',
+        'matches': [Match(wm_class='Spotify')],
+        'layout': 'max'
     },
 ]
 

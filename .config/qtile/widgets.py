@@ -1,10 +1,12 @@
 """
 Custom Qtile widgets live here
 """
+import subprocess
+
+from typing import NamedTuple
+
 from libqtile import widget
 from libqtile.widget.battery import BatteryState, BatteryStatus
-
-from utils import get_volume_state, set_volume, toggle_volume_mute
 
 
 class BatteryDynamicIcon(widget.Battery):
@@ -67,25 +69,61 @@ class BatteryDynamicIcon(widget.Battery):
         assert False, 'unknown battery state'
 
 
-class VolumeDynamicIcon(widget.base.InLoopPollText):
+class PipeWireAudioIcon(widget.base.InLoopPollText):
     """
-    Widget to display volume icon depending on volume level
+    Base widget to display volume level of PipeWire device using 'wpctl'
     """
+
+    class VolumeState(NamedTuple):
+        """
+        Representation of volume state independently from OS tools
+        """
+        percentage: int
+        muted: bool
+
+    AUDIO_DEVICE = None
+    ICONS = {}
 
     DEFAULT_STEP_PERCENTAGE = 5
     """
     Default step to raise / lower volume
     """
 
-    ICONS = {
-        'muted': '婢',
-        'low': '奄',
-        'medium': '奔',
-        'high': '墳'
-    }
+    SET_VOLUME_SHELL_CMD = 'wpctl set-volume {} {} --limit 1.0'
+    TOGGLE_MUTED_SHELL_CMD = 'wpctl set-mute {} toggle'
+    GET_VOLUME_STATE_SHELL_CMD = 'wpctl get-volume {}'
 
-    def poll(self):
-        volume_state = get_volume_state()
+    def get_volume_state(self) -> 'PipeWireAudioIcon.VolumeState':
+        shell_cmd = self.GET_VOLUME_STATE_SHELL_CMD.format(self.AUDIO_DEVICE)
+        output = subprocess.check_output(shell_cmd, shell=True, text=True)
+        percentage = int(float(output.split()[1]) * 100)
+        muted = '[MUTED]' in output
+        return PipeWireAudioIcon.VolumeState(percentage, muted)
+
+    def set_volume(self, step_percentage: int):
+        """
+        Raise / lower volume
+        """
+        sign = '+' if step_percentage > 0 else '-'
+        step_percentage = abs(step_percentage)
+        shell_cmd = self.SET_VOLUME_SHELL_CMD.format(
+            self.AUDIO_DEVICE,
+            f'{step_percentage}%{sign}'
+        )
+        subprocess.run(shell_cmd, shell=True, check=True)
+
+    def toggle_volume_mute(self):
+        """
+        Toggle volume mute
+        """
+        shell_cmd = self.TOGGLE_MUTED_SHELL_CMD.format(self.AUDIO_DEVICE)
+        subprocess.run(shell_cmd, shell=True, check=True)
+
+    def poll(self) -> str:
+        """
+        Called by Qtile periodically to get widget's display string
+        """
+        volume_state = self.get_volume_state()
         volume = volume_state.percentage
         if volume_state.muted:
             icon = self.ICONS['muted']
@@ -100,23 +138,23 @@ class VolumeDynamicIcon(widget.base.InLoopPollText):
         """
         Raise volume, method is called by Qtile on external event
         """
-        if get_volume_state().muted:
-            toggle_volume_mute()
-        set_volume(+self.DEFAULT_STEP_PERCENTAGE)
+        if self.get_volume_state().muted:
+            self.toggle_volume_mute()
+        self.set_volume(+self.DEFAULT_STEP_PERCENTAGE)
         self.tick()
 
     def cmd_lower_volume(self):
         """
         Lower volume, method is called by Qtile on external event
         """
-        set_volume(-self.DEFAULT_STEP_PERCENTAGE)
+        self.set_volume(-self.DEFAULT_STEP_PERCENTAGE)
         self.tick()
 
     def cmd_toggle_mute_volume(self):
         """
         Mute / unmute volume, method is called by Qtile on external event
         """
-        toggle_volume_mute()
+        self.toggle_volume_mute()
         self.tick()
 
     def _get_volume_icon(self, volume: int) -> str:
@@ -127,3 +165,31 @@ class VolumeDynamicIcon(widget.base.InLoopPollText):
         if volume < 80:
             return self.ICONS['medium']
         return self.ICONS['high']
+
+
+class VolumeDynamicIcon(PipeWireAudioIcon):
+    """
+    Widget to display speakers/headset volume icon depending on volume level
+    """
+
+    AUDIO_DEVICE = '@DEFAULT_AUDIO_SINK@'
+    ICONS = {
+        'muted': '婢',
+        'low': '奄',
+        'medium': '奔',
+        'high': '墳'
+    }
+
+
+class MicrophoneDynamicIcon(VolumeDynamicIcon):
+    """
+    Widget to display microphone volume icon depending on volume level
+    """
+
+    AUDIO_DEVICE = '@DEFAULT_AUDIO_SOURCE@'
+    ICONS = {
+        'muted': '',
+        'low': '',
+        'medium': '',
+        'high': ''
+    }
