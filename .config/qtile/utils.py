@@ -22,3 +22,8 @@ TAKE_SCREENSHOT_SHELL_CMD = '''
 Shell command to take a screenshot, save it to images directory and copy
 it to the clipboard
 """
+
+LOCK_X_SESSION_SHELL_CMD = 'loginctl lock-session'
+"""
+Shell command to lock X session
+"""

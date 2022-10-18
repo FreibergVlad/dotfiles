@@ -10,6 +10,7 @@ from utils import (
     MOD_KEY,
     RUN_APP_LAUNCHER_SHELL_CMD,
     TAKE_SCREENSHOT_SHELL_CMD,
+    LOCK_X_SESSION_SHELL_CMD
 )
 
 keys = [
@@ -99,6 +100,11 @@ keys = [
         [MOD_KEY], 'Print',
         lazy.spawn(TAKE_SCREENSHOT_SHELL_CMD, shell=True),
         desc='Take a screenshot'
+    ),
+    Key(
+        [MOD_KEY], 'l',
+        lazy.spawn(LOCK_X_SESSION_SHELL_CMD),
+        desc='Lock X session'
     ),
     Key(
         [], 'XF86AudioRaiseVolume',
