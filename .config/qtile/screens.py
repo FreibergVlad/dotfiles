@@ -46,8 +46,6 @@ screens = [
                 widget.Spacer(),
                 widget.Clock(format='%d %b %I:%M %p'),
                 widget.Spacer(),
-                widget.Systray(),
-                separator,
                 widget.CheckUpdates(
                     distro='Arch_yay',
                     display_format=' {updates}',

@@ -6,12 +6,8 @@ xset s 300
 xss-lock -- betterlockscreen -l &
 
 # set wallpaper
-feh --bg-scale ~/.wallpapers/firewatch_1920_1080.png
+feh --bg-scale ~/.config/wallpapers/firewatch_1920_1080.png
 
 # run window compositor (restart if running already)
 killall -qw picom
 picom -b --no-vsync
-
-# run window compositor (restart if running already)
-killall -qw nm-applet
-nm-applet &
