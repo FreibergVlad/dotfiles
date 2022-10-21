@@ -1,3 +1,6 @@
+"""
+Color schemes live here
+"""
 _gruvbox = {
     'bg':           '#282828',
     'fg':           '#d4be98',
