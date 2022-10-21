@@ -9,7 +9,12 @@ from libqtile.config import Screen
 import widgets
 
 from colors import color_schema
-from utils import DEFAULT_FONT, ICONS_DIR
+from utils import (
+    DEFAULT_FONT,
+    ICONS_DIR,
+    KEYBOARD_LAYOUTS,
+    BRIGHTNESS_DIR,
+)
 
 widget_defaults = dict(
     font=DEFAULT_FONT,
@@ -59,9 +64,15 @@ screens = [
                 widgets.MicrophoneDynamicIcon(update_interval=1),
                 separator,
                 widgets.BatteryDynamicIcon(update_interval=60),
+                widget.Backlight(
+                    backlight_name=BRIGHTNESS_DIR,
+                    # write to /sys/class/backlight directly
+                    change_command=None,
+                    format=' {percent:2.0%}'
+                ),
                 separator,
                 widget.KeyboardLayout(
-                    configured_keyboards=['us', 'ru'],
+                    configured_keyboards=KEYBOARD_LAYOUTS,
                     fmt=' {}',
                 ),
             ],

@@ -3,6 +3,7 @@ All key bindings and mouse configuration live here
 """
 from libqtile.config import Key, Click, Drag
 from libqtile.lazy import lazy
+from libqtile.widget.backlight import ChangeDirection
 
 from groups import groups
 from utils import (
@@ -126,6 +127,16 @@ keys = [
         lazy.widget['microphonedynamicicon'].toggle_mute_volume(),
         desc='Toggle mute microphone volume'
     ),
+    Key(
+        [], 'XF86MonBrightnessUp',
+        lazy.widget['backlight'].change_backlight(ChangeDirection.UP),
+        desc='Increase screen brightness'
+    ),
+    Key(
+        [], 'XF86MonBrightnessDown',
+        lazy.widget['backlight'].change_backlight(ChangeDirection.DOWN),
+        desc='Decrease screen brightness'
+    )
 ]
 
 # Key bindings to switch between groups

@@ -10,6 +10,12 @@ DEFAULT_FONT = 'Hack Nerd Font'
 
 RUN_APP_LAUNCHER_SHELL_CMD = 'rofi -show drun'
 
+BRIGHTNESS_DIR = 'amdgpu_bl0'
+"""
+Directory name in /sys/class/backlight which provides
+backlight control interface
+"""
+
 ICONS_DIR = str(Path.home() / '.config' / 'qtile' / 'icons')
 STARTUP_SCRIPT_PATH = str(Path.home() / '.config' / 'qtile' / 'autostart.sh')
 
@@ -26,4 +32,9 @@ it to the clipboard
 LOCK_X_SESSION_SHELL_CMD = 'loginctl lock-session'
 """
 Shell command to lock X session
+"""
+
+KEYBOARD_LAYOUTS = ['us', 'ru']
+"""
+List of keyboard layouts which should be available in system
 """
