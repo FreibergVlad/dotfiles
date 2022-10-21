@@ -6,7 +6,7 @@ xset s 300
 xss-lock -- betterlockscreen -l &
 
 # set wallpaper
-feh --bg-scale ~/.config/wallpapers/firewatch_1920_1080.png
+feh --bg-scale ~/repos/wallpapers/gruvbox/spaceman.jpg
 
 # run window compositor (restart if running already)
 killall -qw picom
