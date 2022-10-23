@@ -39,3 +39,38 @@ KEYBOARD_LAYOUTS = ['us', 'ru']
 """
 List of keyboard layouts which should be available in system
 """
+
+GET_SPEAKERS_VOLUME_SHELL_CMD = '''
+    pactl get-sink-volume @DEFAULT_SINK@ \
+    | grep -i Volume \
+    | awk '{print $5}' \
+    | sed 's/%//'
+'''
+RAISE_SPEAKERS_VOLUME_SHELL_CMD = '''
+    pactl set-sink-mute @DEFAULT_SINK@ 0 && \
+    pactl set-sink-volume @DEFAULT_SINK@ +5%
+'''
+LOWER_SPEAKERS_VOLUME_SHELL_CMD = 'pactl set-sink-volume @DEFAULT_SINK@ -5%'
+ARE_SPEAKERS_MUTED_SHELL_CMD = '''
+    pactl get-sink-mute @DEFAULT_SINK@ \
+        | grep -q 'no' \
+        && echo 0 \
+        || echo 1
+'''
+TOGGLE_SPEAKERS_MUTE_SHELL_CMD = 'pactl set-sink-mute @DEFAULT_SINK@ toggle'
+
+GET_MICROPHONE_VOLUME_SHELL_CMD = '''
+    pactl get-source-volume @DEFAULT_SOURCE@ \
+    | grep -i Volume \
+    | awk '{print $5}' \
+    | sed 's/%//'
+'''
+IS_MICROPHONE_MUTED_SHELL_CMD = '''
+    pactl get-source-mute @DEFAULT_SOURCE@ \
+        | grep -q 'no' \
+        && echo 0 \
+        || echo 1
+'''
+TOGGLE_MICROPHONE_MUTE_SHELL_CMD = '''
+    pactl set-source-mute @DEFAULT_SOURCE@ toggle
+'''

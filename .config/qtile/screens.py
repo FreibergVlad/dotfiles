@@ -15,6 +15,14 @@ from utils import (
     WALLPAPER_PATH,
     KEYBOARD_LAYOUTS,
     BRIGHTNESS_DIR,
+    GET_SPEAKERS_VOLUME_SHELL_CMD,
+    RAISE_SPEAKERS_VOLUME_SHELL_CMD,
+    LOWER_SPEAKERS_VOLUME_SHELL_CMD,
+    ARE_SPEAKERS_MUTED_SHELL_CMD,
+    TOGGLE_SPEAKERS_MUTE_SHELL_CMD,
+    GET_MICROPHONE_VOLUME_SHELL_CMD,
+    IS_MICROPHONE_MUTED_SHELL_CMD,
+    TOGGLE_MICROPHONE_MUTE_SHELL_CMD
 )
 
 widget_defaults = dict(
@@ -62,10 +70,36 @@ screens = [
                     colour_no_updates=color_schema['fg']
                 ),
                 separator,
-                widgets.VolumeDynamicIcon(update_interval=1),
-                widgets.MicrophoneDynamicIcon(update_interval=1),
+                widgets.Volume(
+                    name='speakers_volume',
+                    get_volume_shell_cmd=GET_SPEAKERS_VOLUME_SHELL_CMD,
+                    raise_volume_shell_cmd=RAISE_SPEAKERS_VOLUME_SHELL_CMD,
+                    lower_volume_shell_cmd=LOWER_SPEAKERS_VOLUME_SHELL_CMD,
+                    get_muted_status_shell_cmd=ARE_SPEAKERS_MUTED_SHELL_CMD,
+                    toggle_mute_shell_cmd=TOGGLE_SPEAKERS_MUTE_SHELL_CMD,
+                    icons={
+                        'muted': '婢',
+                        'low': '奄',
+                        'medium': '奔',
+                        'high': '墳'
+                    },
+                    update_interval=1,
+                ),
+                widgets.Volume(
+                    name='microphone_volume',
+                    get_volume_shell_cmd=GET_MICROPHONE_VOLUME_SHELL_CMD,
+                    get_muted_status_shell_cmd=IS_MICROPHONE_MUTED_SHELL_CMD,
+                    toggle_mute_shell_cmd=TOGGLE_MICROPHONE_MUTE_SHELL_CMD,
+                    icons={
+                        'muted': '',
+                        'low': '',
+                        'medium': '',
+                        'high': ''
+                    },
+                    update_interval=1
+                ),
                 separator,
-                widgets.BatteryDynamicIcon(update_interval=60),
+                widgets.Battery(update_interval=60),
                 widget.Backlight(
                     backlight_name=BRIGHTNESS_DIR,
                     # write to /sys/class/backlight directly

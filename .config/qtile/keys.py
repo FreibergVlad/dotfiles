@@ -109,22 +109,22 @@ keys = [
     ),
     Key(
         [], 'XF86AudioRaiseVolume',
-        lazy.widget['volumedynamicicon'].raise_volume(),
+        lazy.widget['speakers_volume'].raise_volume(),
         desc='Increase speakers volume'
     ),
     Key(
         [], 'XF86AudioLowerVolume',
-        lazy.widget['volumedynamicicon'].lower_volume(),
+        lazy.widget['speakers_volume'].lower_volume(),
         desc='Decrease speakers volume'
     ),
     Key(
         [], 'XF86AudioMute',
-        lazy.widget['volumedynamicicon'].toggle_mute_volume(),
+        lazy.widget['speakers_volume'].toggle_mute_volume(),
         desc='Toggle mute speakers volume'
     ),
     Key(
         [], 'XF86AudioMicMute',
-        lazy.widget['microphonedynamicicon'].toggle_mute_volume(),
+        lazy.widget['microphone_volume'].toggle_mute_volume(),
         desc='Toggle mute microphone volume'
     ),
     Key(
