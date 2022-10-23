@@ -18,6 +18,7 @@ backlight control interface
 
 ICONS_DIR = str(Path.home() / '.config' / 'qtile' / 'icons')
 STARTUP_SCRIPT_PATH = str(Path.home() / '.config' / 'qtile' / 'autostart.sh')
+WALLPAPER_PATH = str(Path.home() / '.config' / 'wallpapers' / 'spaceman.jpg')
 
 TAKE_SCREENSHOT_SHELL_CMD = '''
     scrot -s \

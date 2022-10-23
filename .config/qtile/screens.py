@@ -12,6 +12,7 @@ from colors import color_schema
 from utils import (
     DEFAULT_FONT,
     ICONS_DIR,
+    WALLPAPER_PATH,
     KEYBOARD_LAYOUTS,
     BRIGHTNESS_DIR,
 )
@@ -28,6 +29,7 @@ separator = widget.Sep(size_percent=50, foreground=color_schema['fg3'])
 
 screens = [
     Screen(
+        wallpaper=WALLPAPER_PATH,
         top=bar.Bar(
             [
                 widget.GroupBox(
