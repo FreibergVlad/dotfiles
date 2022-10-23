@@ -4,6 +4,7 @@ Custom Qtile widgets live here
 from typing import NamedTuple
 
 from libqtile import widget
+from libqtile.log_utils import logger
 from libqtile.widget.battery import BatteryState, BatteryStatus
 
 
@@ -44,7 +45,7 @@ class Battery(widget.Battery):
 
     def build_string(self, status: BatteryStatus) -> str:
         """
-        Override parent's method to display battery icon dynamically
+        Override parents method to display battery icon dynamically
         depending on battery state
         """
         state: BatteryState = status.state
@@ -69,7 +70,7 @@ class Battery(widget.Battery):
 
 class Volume(widget.base.InLoopPollText):
     """
-    Widget to display volume level. Difference from standard Qtile's
+    Widget to display volume level. Difference from standard Qtiles
     'widget.Volume' is that it uses Unicode glyphs only and doesn't tightly
     coupled with implementation of various OS tools
     """
@@ -106,7 +107,7 @@ class Volume(widget.base.InLoopPollText):
 
     def poll(self) -> str:
         """
-        Called by Qtile periodically to get widget's display string
+        Called by Qtile periodically to get widgets display string
         """
         volume_state = self._get_volume_state()
         volume = volume_state.percentage
@@ -152,3 +153,65 @@ class Volume(widget.base.InLoopPollText):
         if volume < 80:
             return self.icons['medium']
         return self.icons['high']
+
+
+class NetworkManager(widget.base.InLoopPollText):
+    """
+    Widget which displays networking state according to 'nmcli' output
+    """
+
+    GET_ACTIVE_CONNECTION_SHELL_CMD = '''
+        nmcli -g NAME,TYPE,DEVICE connection show --active | head -n 1
+    '''
+    GET_CONNECTIVITY_SHELL_CMD = 'nmcli networking connectivity'
+
+    FIELD_INDICES = {
+        'network_name': 0,
+        'connection_type': 1,
+        'interface_name': 2,
+    }
+
+    defaults = [
+        ('icons', {}, 'Network icons'),
+    ]
+
+    def __init__(self, **config):
+        super().__init__(**config)
+        self.add_defaults(self.defaults)
+
+    class NetworkState(NamedTuple):
+        """
+        Holder of connection state fields outputted from nmcli
+        """
+        network_name: str
+        connection_type: str
+        interface_name: str
+        connectivity: str
+
+    def poll(self) -> str:
+        """
+        Called by Qtile periodically to get widgets display string
+        """
+        net_state = self._get_network_state()
+        connection_type = net_state.connection_type
+        icon = self.icons.get(connection_type)
+        if icon is None:
+            logger.warning('No icon for connection type "%s"', connection_type)
+            return f'{net_state.network_name}'
+        return f'{icon} {net_state.network_name}'
+
+    def _get_network_state(self) -> 'NetworkManager.NetworkState':
+        """
+        Call nmcli and parse its output
+        """
+        output = self.call_process(self.GET_ACTIVE_CONNECTION_SHELL_CMD,
+                                   shell=True, text=True)
+        fields = output.split(':')
+        connectivity = self.call_process(self.GET_CONNECTIVITY_SHELL_CMD,
+                                         shell=True, text=True)
+        return self.NetworkState(
+            network_name=fields[self.FIELD_INDICES['network_name']],
+            connection_type=fields[self.FIELD_INDICES['connection_type']],
+            interface_name=fields[self.FIELD_INDICES['interface_name']],
+            connectivity=connectivity
+        )

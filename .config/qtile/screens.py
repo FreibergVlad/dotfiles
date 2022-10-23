@@ -70,6 +70,15 @@ screens = [
                     colour_no_updates=color_schema['fg']
                 ),
                 separator,
+                widgets.NetworkManager(
+                    name='network_manager',
+                    icons={
+                        '802-3-ethernet': '',
+                        '802-11-wireless': '',
+                    },
+                    update_interval=5,
+                ),
+                separator,
                 widgets.Volume(
                     name='speakers_volume',
                     get_volume_shell_cmd=GET_SPEAKERS_VOLUME_SHELL_CMD,
