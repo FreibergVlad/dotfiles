@@ -1,5 +1,6 @@
 """
-Various constants and utility functions used across the whole Qtile config
+Various environment specific constants and functions used across the whole
+Qtile configuration
 """
 from pathlib import Path
 
@@ -7,6 +8,19 @@ MOD_KEY = 'mod4'
 # workaround for VirtualBox
 TERMINAL = 'bash -c \'LIBGL_ALWAYS_SOFTWARE=1 alacritty\''
 DEFAULT_FONT = 'Hack Nerd Font'
+
+AUTOSTART_APPS = [
+    # trigger session lock after 5 minutes of inactivity
+    'xset s 300',
+    # subscribe to systemd events, lock session on them
+    'xss-lock -- betterlockscreen -l &',
+    # run window compositor (restart if running already)
+    'killall -qw picom; picom -b',
+]
+"""
+Shell commands which will be started each time Qtile starts in the order that
+they are defined here
+"""
 
 RUN_APP_LAUNCHER_SHELL_CMD = 'rofi -show drun'
 
@@ -17,7 +31,6 @@ backlight control interface
 """
 
 ICONS_DIR = str(Path.home() / '.config' / 'qtile' / 'icons')
-STARTUP_SCRIPT_PATH = str(Path.home() / '.config' / 'qtile' / 'autostart.sh')
 WALLPAPER_PATH = str(Path.home() / '.config' / 'wallpapers' / 'spaceman.jpg')
 
 TAKE_SCREENSHOT_SHELL_CMD = '''

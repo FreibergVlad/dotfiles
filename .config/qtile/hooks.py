@@ -7,7 +7,7 @@ import libqtile.hook
 
 from libqtile.log_utils import logger
 
-from utils import STARTUP_SCRIPT_PATH
+from utils import AUTOSTART_APPS
 
 
 @libqtile.hook.subscribe.startup
@@ -15,7 +15,8 @@ def autostart():
     """
     Executed when Qtile starts
     """
-    try:
-        subprocess.run([STARTUP_SCRIPT_PATH], check=True)
-    except subprocess.CalledProcessError:
-        logger.exception('Error while executing startup hook')
+    for app_cmd in AUTOSTART_APPS:
+        try:
+            subprocess.run(app_cmd, check=True, shell=True)
+        except subprocess.CalledProcessError:
+            logger.exception('Error while autostarting "%s" command', app_cmd)
