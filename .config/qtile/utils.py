@@ -5,8 +5,7 @@ Qtile configuration
 from pathlib import Path
 
 MOD_KEY = 'mod4'
-# workaround for VirtualBox
-TERMINAL = 'bash -c \'LIBGL_ALWAYS_SOFTWARE=1 alacritty\''
+TERMINAL = 'alacritty'
 DEFAULT_FONT = 'Hack Nerd Font'
 
 AUTOSTART_APPS = [
