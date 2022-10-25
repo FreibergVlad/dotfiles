@@ -33,6 +33,11 @@ group_definitions = [
         'matches': [Match(wm_class='Spotify')],
         'layout': 'max'
     },
+    {
+        'name': 'miscellaneous',
+        'label': '',
+        'layout': 'floating'
+    },
 ]
 
 groups = [Group(**group) for group in group_definitions]
