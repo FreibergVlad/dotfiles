@@ -15,6 +15,8 @@ AUTOSTART_APPS = [
     'xss-lock -- betterlockscreen -l &',
     # run window compositor (restart if running already)
     'killall -qw picom; picom -b',
+    # run notification daemon
+    'dunst &',
 ]
 """
 Shell commands which will be started each time Qtile starts in the order that
