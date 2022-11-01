@@ -61,14 +61,6 @@ screens = [
                 widget.Spacer(),
                 widget.Clock(format='%d %b %I:%M %p'),
                 widget.Spacer(),
-                widget.CheckUpdates(
-                    distro='Arch_yay',
-                    display_format=' {updates}',
-                    no_update_string=' 0',
-                    initial_text=' ',
-                    colour_have_updates=color_schema['dark-red'],
-                    colour_no_updates=color_schema['fg']
-                ),
                 separator,
                 widgets.NetworkManager(
                     name='network_manager',
@@ -76,6 +68,9 @@ screens = [
                         '802-3-ethernet': '',
                         '802-11-wireless': '',
                     },
+                    format_string='{icon}',
+                    no_connection_format_string='{icon} {network_name} '
+                                                '(no connection)',
                     update_interval=5,
                 ),
                 separator,

@@ -4,7 +4,6 @@ Custom Qtile widgets live here
 from typing import NamedTuple
 
 from libqtile import widget
-from libqtile.log_utils import logger
 from libqtile.widget.battery import BatteryState, BatteryStatus
 
 
@@ -172,12 +171,28 @@ class NetworkManager(widget.base.InLoopPollText):
     }
 
     defaults = [
-        ('icons', {}, 'Network icons'),
+        (
+            'icons',
+            {},
+            'Network icons. Dictionary where keys are values of '
+            'connection.type NetworkManager property'
+        ),
+        (
+            'format_string',
+            '',
+            'Format string which will be used when host is connected to a'
+            'network an has full access to the Internet. Format options are'
+            '"network_name", "connection_type", "interface_name", '
+            '"connectivity"'
+        ),
+        (
+            'no_connection_format_string',
+            '',
+            'Format string which will be used when host has no full '
+            'Internet access, format options are the same as in '
+            '"format_string" parameter'
+        ),
     ]
-
-    def __init__(self, **config):
-        super().__init__(**config)
-        self.add_defaults(self.defaults)
 
     class NetworkState(NamedTuple):
         """
@@ -188,17 +203,21 @@ class NetworkManager(widget.base.InLoopPollText):
         interface_name: str
         connectivity: str
 
+    def __init__(self, **config):
+        super().__init__(**config)
+        self.add_defaults(self.defaults)
+
     def poll(self) -> str:
         """
         Called by Qtile periodically to get widgets display string
         """
         net_state = self._get_network_state()
         connection_type = net_state.connection_type
-        icon = self.icons.get(connection_type)
-        if icon is None:
-            logger.warning('No icon for connection type "%s"', connection_type)
-            return f'{net_state.network_name}'
-        return f'{icon} {net_state.network_name}'
+        icon = self.icons.get(connection_type, '')
+        kwargs = dict(**net_state._asdict(), icon=icon)
+        if net_state.connectivity != 'full':
+            return self.no_connection_format_string.format(**kwargs)
+        return self.format_string.format(**kwargs)
 
     def _get_network_state(self) -> 'NetworkManager.NetworkState':
         """
@@ -208,7 +227,7 @@ class NetworkManager(widget.base.InLoopPollText):
                                    shell=True, text=True)
         fields = output.split(':')
         connectivity = self.call_process(self.GET_CONNECTIVITY_SHELL_CMD,
-                                         shell=True, text=True)
+                                         shell=True, text=True).strip()
         return self.NetworkState(
             network_name=fields[self.FIELD_INDICES['network_name']],
             connection_type=fields[self.FIELD_INDICES['connection_type']],
