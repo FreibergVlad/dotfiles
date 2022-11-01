@@ -35,9 +35,9 @@ ICONS_DIR = str(Path.home() / '.config' / 'qtile' / 'icons')
 WALLPAPER_PATH = str(Path.home() / '.config' / 'wallpapers' / 'spaceman.jpg')
 
 TAKE_SCREENSHOT_SHELL_CMD = '''
-    scrot -s \
-        -F "$(xdg-user-dir PICTURES)/screenshot_%Y-%m-%d_%H.%M.%S.png" \
-        -e 'xclip -selection clipboard -target image/png -i $f'
+    maim -s \
+        | tee $(xdg-user-dir PICTURES)/screenshot_$(date +%F_%H.%M.%S).png \
+        | xclip -selection clipboard -t image/png
 '''
 """
 Shell command to take a screenshot, save it to images directory and copy
