@@ -16,7 +16,7 @@ AUTOSTART_APPS = [
     # run window compositor (restart if running already)
     'killall -qw picom; picom -b',
     # run notification daemon
-    'dunst &',
+    'killall -qw dunst; dunst &',
 ]
 """
 Shell commands which will be started each time Qtile starts in the order that
