@@ -9,6 +9,8 @@ TERMINAL = 'alacritty'
 DEFAULT_FONT = 'Hack Nerd Font'
 
 AUTOSTART_APPS = [
+    # set auto-repeat delay and rate
+    "xset r rate 300 25",
     # trigger session lock after 5 minutes of inactivity
     'xset s 300',
     # subscribe to systemd events, lock session on them
