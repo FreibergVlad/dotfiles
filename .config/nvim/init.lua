@@ -1,5 +1,5 @@
 require('vars')      -- Variables
+require('plug')      -- Plugins
 require('opts')      -- Options
 require('keys')      -- Keymaps
-require('plug')      -- Plugins
 require('lsp')       -- LSP configuration
