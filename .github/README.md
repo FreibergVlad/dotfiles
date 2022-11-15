@@ -1,6 +1,6 @@
 ## Dependencies
 
-Here is a list of tools and libraries which dotfiles depends on. I aim to keep it up-to-date,
+Here is a list of tools and libraries which dotfiles depend on. I aim to keep it up-to-date,
 but I can not guarantee that I haven't missed anything:
 - [qtile](https://github.com/qtile/qtile) - obviously. Window manager which all my desktop is build around
 - [alacritty](https://github.com/alacritty/alacritty) - terminal emulator
