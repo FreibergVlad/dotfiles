@@ -67,7 +67,7 @@ screens = [
                     name='network_manager',
                     icons={
                         '802-3-ethernet': '',
-                        '802-11-wireless': '',
+                        '802-11-wireless': ' ',
                     },
                     format_string='{icon}',
                     no_connection_format_string='{icon} {network_name} '
