@@ -11,10 +11,9 @@ DEFAULT_FONT = 'Hack Nerd Font'
 AUTOSTART_APPS = [
     # set auto-repeat delay and rate
     "xset r rate 300 25",
-    # trigger session lock after 5 minutes of inactivity
-    'xset s 300',
-    # subscribe to systemd events, lock session on them
-    'xss-lock -- betterlockscreen -l &',
+    # trigger session lock after 5 minutes of inactivity,
+    # turn display off 2 minutes later
+    'xset s 300; xss-lock -- betterlockscreen -l --off 120 &',
     # run window compositor (restart if running already)
     'killall -qw picom; picom -b',
     # run notification daemon
