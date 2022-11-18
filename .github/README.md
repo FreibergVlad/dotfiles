@@ -14,6 +14,7 @@ but I can not guarantee that I haven't missed anything:
 - xss-lock - use external locker as X screen saver
 - [betterlockscreen](https://github.com/betterlockscreen/betterlockscreen) - lock screen, `i3lock` wrapper
 - [nmcli](https://networkmanager.dev/) - required by `NetworkManager` Qtile widget
+- [brightnessctl](https://github.com/Hummer12007/brightnessctl) - required by `Backlight` Qtile widget, used to set screen brightness
 - [ripgrep](https://github.com/BurntSushi/ripgrep) - required by Telescope Neovim plugin
 - [fd](https://github.com/sharkdp/fd) - required by Telescope Neovim plugin
 
@@ -41,3 +42,8 @@ command again.
 ```sh
 dotfiles checkout
 ```
+
+## Configuration
+
+Most of the Qtile environment specific stuff lives in (utils.py)(/.config/qtile/utils.py). I try to keep all shell commands
+and references to system files there so it will be easy to change something.
