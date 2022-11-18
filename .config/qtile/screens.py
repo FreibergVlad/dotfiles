@@ -15,6 +15,7 @@ from utils import (
     WALLPAPER_PATH,
     KEYBOARD_LAYOUTS,
     BRIGHTNESS_DIR,
+    SET_BRIGHTNESS_SHELL_CMD,
     GET_SPEAKERS_VOLUME_SHELL_CMD,
     RAISE_SPEAKERS_VOLUME_SHELL_CMD,
     LOWER_SPEAKERS_VOLUME_SHELL_CMD,
@@ -106,8 +107,7 @@ screens = [
                 widgets.Battery(update_interval=60),
                 widget.Backlight(
                     backlight_name=BRIGHTNESS_DIR,
-                    # write to /sys/class/backlight directly
-                    change_command=None,
+                    change_command=SET_BRIGHTNESS_SHELL_CMD,
                     format=' {percent:2.0%}'
                 ),
                 separator,

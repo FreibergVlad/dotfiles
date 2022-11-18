@@ -33,6 +33,11 @@ Directory name in /sys/class/backlight which provides
 backlight control interface
 """
 
+SET_BRIGHTNESS_SHELL_CMD = 'brightnessctl set {}%'
+"""
+Shell command template to set screen brightness
+"""
+
 ICONS_DIR = str(Path.home() / '.config' / 'qtile' / 'icons')
 WALLPAPER_PATH = str(Path.home() / '.config' / 'wallpapers' / 'spaceman.jpg')
 
