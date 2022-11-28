@@ -41,7 +41,7 @@ ICONS_DIR = str(Path.home() / '.config' / 'qtile' / 'icons')
 WALLPAPER_PATH = str(Path.home() / '.config' / 'wallpapers' / 'spaceman.jpg')
 
 TAKE_SCREENSHOT_SHELL_CMD = '''
-    maim -s \
+    maim -o -s \
         | tee $(xdg-user-dir PICTURES)/screenshot_$(date +%F_%H.%M.%S).png \
         | xclip -selection clipboard -t image/png
 '''
