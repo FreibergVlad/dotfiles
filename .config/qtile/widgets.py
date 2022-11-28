@@ -4,6 +4,7 @@ Custom Qtile widgets live here
 from typing import NamedTuple
 
 from libqtile import widget
+from libqtile.log_utils import logger
 from libqtile.widget.battery import BatteryState, BatteryStatus
 
 
@@ -108,7 +109,14 @@ class Volume(widget.base.InLoopPollText):
         """
         Called by Qtile periodically to get widgets display string
         """
-        volume_state = self._get_volume_state()
+        try:
+            volume_state = self._get_volume_state()
+        except Exception:
+            logger.exception('Exception while getting volume state')
+            # on Qtile startup audio might no be ready yet, so
+            # don't throw an error here hoping that it will
+            # succeed at next 'poll' call
+            return ''
         volume = volume_state.percentage
         if volume_state.muted:
             icon = self.icons['muted']
