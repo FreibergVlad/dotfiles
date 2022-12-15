@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# Set timezone according to current location. Script uses
+# https://ipinfo.io API to get current timezone
+
+set -euo pipefail
+
+timezone=$(curl --fail --silent https://ipinfo.io/timezone)
+
+timedatectl set-timezone $timezone
+
+echo "The new timezone is $timezone"
