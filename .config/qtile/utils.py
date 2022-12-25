@@ -18,6 +18,8 @@ AUTOSTART_APPS = [
     'killall -qw picom; picom -b',
     # run notification daemon
     'killall -qw dunst; dunst &',
+    # run bluetooth daemon
+    'killall -qw blueman-applet; blueman-applet &'
 ]
 """
 Shell commands which will be started each time Qtile starts in the order that
