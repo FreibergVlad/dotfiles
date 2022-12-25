@@ -1,4 +1,4 @@
-local lsp_servers = { 'pyright', 'sumneko_lua' }
+local lsp_servers = { 'pyright', 'sumneko_lua', 'gopls'}
 
 require('mason-lspconfig').setup({
     -- list of servers to automatically install
