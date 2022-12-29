@@ -17,6 +17,7 @@ but I can not guarantee that I haven't missed anything:
 - [brightnessctl](https://github.com/Hummer12007/brightnessctl) - required by `Backlight` Qtile widget, used to set screen brightness
 - [ripgrep](https://github.com/BurntSushi/ripgrep) - required by Telescope Neovim plugin
 - [fd](https://github.com/sharkdp/fd) - required by Telescope Neovim plugin
+- [dbus-next](https://pypi.org/project/dbus-next/) - DBus library, required by some of Qtile widgets
 - [blueman](https://github.com/blueman-project/blueman) - Bluetooth manager
 
 ## Installation

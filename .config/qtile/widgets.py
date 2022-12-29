@@ -242,3 +242,24 @@ class NetworkManager(widget.base.InLoopPollText):
             interface_name=fields[self.FIELD_INDICES['interface_name']],
             connectivity=connectivity
         )
+
+
+class Bluetooth(widget.Bluetooth):
+    """
+    Extension of widget.Bluetooth with custom widget
+    string formatting
+    """
+
+    DISCONNECTED_ICON = ''
+    CONNECTED_ICON = ''
+
+    def update_text(self):
+        text = ''
+        if not self.powered:
+            text = self.DISCONNECTED_ICON
+        else:
+            if not self.connected:
+                text = self.DISCONNECTED_ICON
+            else:
+                text = self.CONNECTED_ICON
+        self.update(text)

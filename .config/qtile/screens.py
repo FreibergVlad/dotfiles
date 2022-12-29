@@ -23,7 +23,8 @@ from utils import (
     TOGGLE_SPEAKERS_MUTE_SHELL_CMD,
     GET_MICROPHONE_VOLUME_SHELL_CMD,
     IS_MICROPHONE_MUTED_SHELL_CMD,
-    TOGGLE_MICROPHONE_MUTE_SHELL_CMD
+    TOGGLE_MICROPHONE_MUTE_SHELL_CMD,
+    BLUETOOTH_DEVICE_HCI_PATH
 )
 
 widget_defaults = dict(
@@ -62,7 +63,11 @@ screens = [
                 widget.Spacer(),
                 widget.Clock(format='%d %b %I:%M %p'),
                 widget.Spacer(),
-                separator,
+                widgets.Bluetooth(
+                    hci=BLUETOOTH_DEVICE_HCI_PATH,
+                    fmt="{}",
+                    fontsize=16
+                ),
                 widgets.NetworkManager(
                     name='network_manager',
                     icons={
