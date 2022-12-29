@@ -1,0 +1,3 @@
+#!/bin/sh
+setxkbmap us
+betterlockscreen -l --off 120

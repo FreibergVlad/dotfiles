@@ -13,7 +13,7 @@ AUTOSTART_APPS = [
     "xset r rate 300 25",
     # trigger session lock after 5 minutes of inactivity,
     # turn display off 2 minutes later
-    'xset s 300; xss-lock -- betterlockscreen -l --off 120 &',
+    'xset s 300; xss-lock -- ~/.local/bin/lock-screen &',
     # run window compositor (restart if running already)
     'killall -qw picom; picom -b',
     # run notification daemon
