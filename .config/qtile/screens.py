@@ -40,6 +40,7 @@ separator = widget.Sep(size_percent=50, foreground=color_schema['fg3'])
 screens = [
     Screen(
         wallpaper=WALLPAPER_PATH,
+        wallpaper_mode='fill',
         top=bar.Bar(
             [
                 widget.GroupBox(
