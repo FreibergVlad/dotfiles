@@ -19,7 +19,9 @@ AUTOSTART_APPS = [
     # run notification daemon
     'killall -qw dunst; dunst &',
     # run bluetooth daemon
-    'killall -qw blueman-applet; blueman-applet &'
+    'killall -qw blueman-applet; blueman-applet &',
+    # run daemon to auto-mount USB disks
+    'killall -qw udiskie; udiskie &',
 ]
 """
 Shell commands which will be started each time Qtile starts in the order that

@@ -19,6 +19,7 @@ but I can not guarantee that I haven't missed anything:
 - [fd](https://github.com/sharkdp/fd) - required by Telescope Neovim plugin
 - [dbus-next](https://pypi.org/project/dbus-next/) - DBus library, required by some of Qtile widgets
 - [blueman](https://github.com/blueman-project/blueman) - Bluetooth manager
+- [udiskie](https://github.com/coldfix/udiskie) - USB disks manager
 
 ## Installation
 
