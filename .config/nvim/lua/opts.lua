@@ -1,5 +1,6 @@
 local opt = vim.opt
 local cmd = vim.cmd
+local wo = vim.wo
 
 -- [[ Context ]]
 -- show line numbers
@@ -14,6 +15,8 @@ opt.signcolumn = 'yes'
 opt.swapfile = false
 -- use system clipboard
 opt.clipboard = 'unnamed,unnamedplus'
+-- remove '~' indicator after EOL
+wo.fillchars = 'eob: '
 
 -- [[ File types ]]
 -- string encoding to use
@@ -28,7 +31,7 @@ opt.fileformat = 'unix'
 opt.syntax = 'ON'
 -- enable 24-bit RGB color in the TUI
 opt.termguicolors = true
--- hide current mode since it's already shown by  Lualine
+-- hide current mode since it's already shown by Lualine
 opt.showmode = false
 -- don't show last executed command
 opt.showcmd = false
