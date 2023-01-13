@@ -15,7 +15,6 @@ class Battery(widget.Battery):
 
     FULL_BATTERY_ICON = ''
     EMPTY_BATTERY_ICON = ''
-    UNKNOWN_BATTERY_ICON = ''
 
     CHARGING_ICONS = {
         10: '',
@@ -49,7 +48,7 @@ class Battery(widget.Battery):
         depending on battery state
         """
         state: BatteryState = status.state
-        percentage = int(status.percent * 100)
+        percentage = min(int(status.percent * 100), 100)
         icon = self._get_battery_icon(state, percentage)
         return f'{icon} {percentage}%'
 
@@ -58,12 +57,10 @@ class Battery(widget.Battery):
             return self.FULL_BATTERY_ICON
         if state == BatteryState.EMPTY:
             return self.EMPTY_BATTERY_ICON
-        if state == BatteryState.UNKNOWN:
-            return self.UNKNOWN_BATTERY_ICON
         low_boundary = percentage // 10 * 10 if percentage >= 10 else 10
         if state == BatteryState.CHARGING:
             return self.CHARGING_ICONS[low_boundary]
-        if state == BatteryState.DISCHARGING:
+        if state in [BatteryState.DISCHARGING, BatteryState.UNKNOWN]:
             return self.DISCHARGING_ICONS[low_boundary]
         assert False, 'unknown battery state'
 
