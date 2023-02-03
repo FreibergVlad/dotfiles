@@ -112,6 +112,18 @@ return require('packer').startup(function(use)
     use 'hrsh7th/nvim-cmp'
     use 'L3MON4D3/LuaSnip'
     use 'saadparwaiz1/cmp_luasnip'
+    -- copy using OSC52
+    use {
+        'ojroques/nvim-osc52',
+        config = function()
+            local function copy()
+              if vim.v.event.operator == 'y' and vim.v.event.regname == 'c' then
+                require('osc52').copy_register('c')
+              end
+            end
+            vim.api.nvim_create_autocmd('TextYankPost', {callback = copy})
+        end
+    }
     -- install packages if it's first start ever
     if packer_bootstrap then
         require('packer').sync()
