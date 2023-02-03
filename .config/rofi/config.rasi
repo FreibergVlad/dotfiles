@@ -1,0 +1,14 @@
+configuration {
+    font: "Hack 12";
+    terminal: "alacritty";
+    timeout {
+        action: "kb-cancel";
+        delay: 0;
+    }
+    filebrowser {
+        directories-first: true;
+        sorting-method: "name";
+  }
+}
+
+@theme "gruvbox-dark"
