@@ -22,6 +22,8 @@ from utils import (
     ARE_SPEAKERS_MUTED_SHELL_CMD,
     TOGGLE_SPEAKERS_MUTE_SHELL_CMD,
     GET_MICROPHONE_VOLUME_SHELL_CMD,
+    RAISE_MICROPHONE_VOLUME_SHELL_CMD,
+    LOWER_MICROPHONE_VOLUME_SHELL_CMD,
     IS_MICROPHONE_MUTED_SHELL_CMD,
     TOGGLE_MICROPHONE_MUTE_SHELL_CMD,
     BLUETOOTH_DEVICE_HCI_PATH
@@ -99,6 +101,8 @@ screens = [
                 widgets.Volume(
                     name='microphone_volume',
                     get_volume_shell_cmd=GET_MICROPHONE_VOLUME_SHELL_CMD,
+                    raise_volume_shell_cmd=RAISE_MICROPHONE_VOLUME_SHELL_CMD,
+                    lower_volume_shell_cmd=LOWER_MICROPHONE_VOLUME_SHELL_CMD,
                     get_muted_status_shell_cmd=IS_MICROPHONE_MUTED_SHELL_CMD,
                     toggle_mute_shell_cmd=TOGGLE_MICROPHONE_MUTE_SHELL_CMD,
                     icons={

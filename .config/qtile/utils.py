@@ -89,6 +89,11 @@ GET_MICROPHONE_VOLUME_SHELL_CMD = '''
     | awk '{print $5}' \
     | sed 's/%//'
 '''
+RAISE_MICROPHONE_VOLUME_SHELL_CMD = '''
+    pactl set-source-mute @DEFAULT_SOURCE@ 0 && \
+    pactl set-source-volume @DEFAULT_SOURCE@ +5%
+'''
+LOWER_MICROPHONE_VOLUME_SHELL_CMD = 'pactl set-source-volume @DEFAULT_SOURCE@ -5%'  # noqa: E501
 IS_MICROPHONE_MUTED_SHELL_CMD = '''
     pactl get-source-mute @DEFAULT_SOURCE@ \
         | grep -q 'no' \

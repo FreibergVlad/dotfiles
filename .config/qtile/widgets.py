@@ -94,6 +94,11 @@ class Volume(widget.base.InLoopPollText):
     def __init__(self, **config):
         super().__init__(**config)
         self.add_defaults(self.defaults)
+        self.add_callbacks({
+            "Button1": self.cmd_toggle_mute_volume,
+            "Button4": self.cmd_raise_volume,
+            "Button5": self.cmd_lower_volume,
+        })
 
     class VolumeState(NamedTuple):
         """
