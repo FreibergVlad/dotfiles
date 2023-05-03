@@ -74,7 +74,7 @@ screens = [
                 widgets.NetworkManager(
                     name='network_manager',
                     icons={
-                        '802-3-ethernet': '',
+                        '802-3-ethernet': '󰈀',
                         '802-11-wireless': ' ',
                     },
                     format_string='{icon}',
@@ -91,10 +91,10 @@ screens = [
                     get_muted_status_shell_cmd=ARE_SPEAKERS_MUTED_SHELL_CMD,
                     toggle_mute_shell_cmd=TOGGLE_SPEAKERS_MUTE_SHELL_CMD,
                     icons={
-                        'muted': '婢',
-                        'low': '奄',
-                        'medium': '奔',
-                        'high': '墳'
+                        'muted': '󰖁',
+                        'low': '',
+                        'medium': '󰕾',
+                        'high': ''
                     },
                     update_interval=1,
                 ),
@@ -106,10 +106,10 @@ screens = [
                     get_muted_status_shell_cmd=IS_MICROPHONE_MUTED_SHELL_CMD,
                     toggle_mute_shell_cmd=TOGGLE_MICROPHONE_MUTE_SHELL_CMD,
                     icons={
-                        'muted': '',
-                        'low': '',
-                        'medium': '',
-                        'high': ''
+                        'muted': '󰍭',
+                        'low': '󰍬',
+                        'medium': '󰍬',
+                        'high': '󰍬'
                     },
                     update_interval=1
                 ),
@@ -118,12 +118,12 @@ screens = [
                 widget.Backlight(
                     backlight_name=BRIGHTNESS_DIR,
                     change_command=SET_BRIGHTNESS_SHELL_CMD,
-                    format=' {percent:2.0%}'
+                    format='󰌵 {percent:2.0%}'
                 ),
                 separator,
                 widget.KeyboardLayout(
                     configured_keyboards=KEYBOARD_LAYOUTS,
-                    fmt=' {}',
+                    fmt='󰌌 {}',
                 ),
             ],
             30,

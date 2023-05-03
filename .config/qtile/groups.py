@@ -6,7 +6,7 @@ from libqtile.config import Group, Match
 group_definitions = [
     {
         'name': 'web',
-        'label': '',
+        'label': '󰈹',
         'matches': [Match(wm_class='firefox')],
         'layout': 'max'
     },
@@ -17,25 +17,25 @@ group_definitions = [
     },
     {
         'name': 'ms-teams',
-        'label': '者',
+        'label': '',
         'matches': [Match(wm_class='teams-for-linux')],
         'layout': 'max'
     },
     {
         'name': 'telegram',
-        'label': '切',
+        'label': '',
         'matches': [Match(wm_class='telegram-desktop')],
         'layout': 'max'
     },
     {
         'name': 'spotify',
-        'label': '阮',
+        'label': '',
         'matches': [Match(wm_class='Spotify')],
         'layout': 'max'
     },
     {
         'name': 'miscellaneous',
-        'label': '',
+        'label': '󱗼',
         'layout': 'floating'
     },
 ]
