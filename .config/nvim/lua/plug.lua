@@ -74,7 +74,7 @@ return require('packer').startup(function(use)
         end,
         config = function()
             require('nvim-treesitter.configs').setup {
-                ensure_installed = { 'lua', 'python', 'go' },
+                ensure_installed = { 'lua', 'python', 'go', 'dockerfile' },
                 sync_install = false,
                 highlight = {
                     enable = true,
@@ -101,7 +101,11 @@ return require('packer').startup(function(use)
         config = function() require('mason').setup {} end
     }
     -- mason integration with LSP
-    use 'williamboman/mason-lspconfig.nvim'
+    use {
+        'williamboman/mason-lspconfig.nvim',
+        after = 'mason.nvim',
+        config = function() require('lsp').setup_mason_lsp_config() end
+    }
     -- LSP configuration
     use 'neovim/nvim-lspconfig'
     -- autocompletion plugins
