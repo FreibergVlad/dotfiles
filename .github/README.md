@@ -50,3 +50,7 @@ dotfiles checkout
 
 Most of the Qtile environment specific stuff lives in [utils.py](/.config/qtile/utils.py). I try to keep all shell commands
 and references to system files there so it will be easy to change something.
+
+## Screenshots
+
+![Qtile screenshot](/.github/qtile_screenshot.jpg?raw=true)
